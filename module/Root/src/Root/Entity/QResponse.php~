@@ -1,0 +1,63 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * QResponse
+ *
+ * @ORM\Table(name="q_response", indexes={@ORM\Index(name="fk_response_question", columns={"idFkQuestion"}), @ORM\Index(name="fk_response_answer", columns={"idFkAnswer"}), @ORM\Index(name="fk_response_test", columns={"idFkTest"})})
+ * @ORM\Entity
+ */
+class QResponse
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idResponse", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idresponse;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isTrue", type="boolean", nullable=false)
+     */
+    private $istrue;
+
+    /**
+     * @var \Root\Entity\QAnswer
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QAnswer")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkAnswer", referencedColumnName="idAnswer")
+     * })
+     */
+    private $idfkanswer;
+
+    /**
+     * @var \Root\Entity\QQuestion
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QQuestion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkQuestion", referencedColumnName="idQuestion")
+     * })
+     */
+    private $idfkquestion;
+
+    /**
+     * @var \Root\Entity\QTest
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QTest")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkTest", referencedColumnName="idTest")
+     * })
+     */
+    private $idfktest;
+
+
+}
+

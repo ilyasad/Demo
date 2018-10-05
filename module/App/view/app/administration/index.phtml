@@ -1,0 +1,374 @@
+<?php
+$title = 'Administration | My Quizz App';
+$this->headTitle ( $title );
+
+echo $this->headLink ()
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css' ) )
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css' ) )
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-toastr/toastr.min.css' ) )
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/jquery-nestable/jquery.nestable.css' ) )
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css' ) )
+//->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css' ) )
+;
+?>
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel panel-default">
+			<div class="panel-heading" >
+				<h3 class="panel-title">Thèmes 
+					<a id="" class="btn btn-default btn-xs pull-right" onclick="getFormTheme(0)">
+						<i class="fa fa-plus"></i> 
+					</a>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<?php foreach ($themes as $t):?>
+					<li class="dd-item dd3-item" data-id="<?= $t->getIdtheme() ?>" data-name="<?= $t->getName() ?>">
+						<div class="dd-handle dd3-handle">
+						</div>
+						<div class="dd3-content" style="cursor: alias;">
+							  <span class="" style=""  title="<?= $t->getIsactive() == 1 ?'Activé':'Désactivé' ?>">
+							 	<i class="fa fa-<?= $t->getIsactive() == 1 ?'un':'' ?>lock"></i>| 
+							 </span>
+							 <?= $t->getName() ?>
+							 <span class="pull-right" style="cursor: pointer;" title="Supprimer" onclick="deleteTheme(<?= $t->getIdtheme() ?>)">
+							 	<button class="btn btn-xs red-sunglo" style="margin-left: 2px;padding: 1px 1px;"> <i class="fa fa-trash-o"></i> </button>
+							 </span>
+							 <span class="pull-right" style="cursor: pointer;" title="Editer" onclick="getFormTheme(<?= $t->getIdtheme() ?>)">| 
+							 	<button class="btn btn-xs purple" style="padding: 1px 1px;"> <i class="fa fa-edit"></i> </button>
+							 </span>
+							
+							 <span class="selected pull-right"></span>
+						</div>
+					</li>
+				<?php endforeach;?>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading" >
+				<h3 class="panel-title">Questions 
+					<span id="theme_name" style="background-color:#F08200;" class="badge"></span>
+					<a id="" class="btn btn-default btn-xs pull-right" onclick="getFormQuestion(0)">
+						<i class="fa fa-plus"></i> 
+					</a>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<table id="datatable_questions" class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>Questions</th>
+							<th>Réponses</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody id="datatable_body"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modal_transmission"  style="left: 40%;top: 40%;min-width: 700px;" class="modal modal2 fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<form id="QUIZZ_FORM" action="" >
+	<div class="modal-header" style="height: 50px">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+		<h4>Formulaire</h4>
+	</div>
+	
+	<div class="modal-body" id="modal_body">
+		
+	</div>
+	<input type="hidden" name="ID_Q_THEME" id="id_theme" value=""/>
+	<div id="modal_loading_body" class="modal-content loading-message loading-message-boxed col-md-12 note note-success">
+		
+	</div>
+	<div class="modal-footer"><br/>
+		<button type="button" data-dismiss="modal" class="btn btn-default">Annuler</button>
+		<button id="btn-save" type="submit" class="btn blue">Enregistrer</button>
+	</div>
+	</form>
+</div>
+<?php
+echo $this->headScript ()
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-toastr/toastr.min.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootbox/bootbox.min.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/select2/select2.min.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js' ) )
+->prependFile ( $this->basePath ( 'js/localization_js_validation/messages_fr.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/jquery-validation/js/jquery.validate.min.js' ) )
+;
+?>
+<script type="text/javascript">
+$('li').removeClass('open');
+$('#menu_administration').addClass('open selected');
+var loader_modal_html = "<center style='color:#444868;'><i style='font-size:20px;' class='fa fa-spinner fa-spin'></i> Traitement en cours ...</center>";
+var loader_datatable = "<tr><td colspan='3' align='center'><center><i style='font-size:20px;color:#1abc9c' class='fa fa-spinner fa-spin'></i> Chargement en cours ...Veuillez patienter</center></td></tr>";
+var idTheme=0;
+toastr.options = {
+		  "closeButton": true,
+		  "positionClass": "toast-top-center",
+		  
+		};
+var table = $('#datatable_questions');
+var process = 'T';
+$(document).ready(function() {
+	
+	$(".dd3-item").click(function(){
+		$('.dd3-item .selected').html('');
+		var span = $(this).find('.selected');
+		span.html('<i class="fa fa-spinner fa-spin"></i>');
+		 $('#datatable_body').html(loader_datatable);
+		idTheme = $(this).attr('data-id');
+		$('#theme_name').html($(this).attr('data-name'));
+		$('#id_theme').val(idTheme);
+		reload_questions_datatable(idTheme);
+		setTimeout(function(){
+			span.html('<i class="fa fa-search-plus pull-right"></i>');//fa-crosshairs
+    	}, 500);
+		
+	});
+	
+	table.dataTable({
+	
+	 	"language": {
+	 		"processing":"Traitement en cours...",
+	 		"loadingRecords": "<i class='fa fa-spinner fa-spin'></i> Chargement en cours...",
+	            "aria": {
+	                "sortAscending": ": activer pour trier la colonne par ordre croissant",
+	                "sortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+	            },
+	            "emptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+	            "info": "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+	            "infoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+	            "infoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+	            "infoPostFix":    "",
+	            "lengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+	            "search": "Filtrer&nbsp;:",
+	            "zeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+	            "paginate": {
+	                "previous":"Pr&eacute;c&eacute;dent",
+	                "next": "Suivant",
+	                "last": "Dernier",
+	                "first": "Premier"
+	            }
+	    },
+	    "ajax": {
+			  "url": "/questions_datatable/0", 
+			},
+	    "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+		"ordering": true,
+	    "lengthMenu": [
+	        [5, 10, 15, 20, -1],
+	        [5, 10, 15, 20, "All"] // change per page values here
+	    ],
+	    // set the initial value
+	    "pageLength": 10,
+	    "order": [
+	        [0, "desc"]
+	    ]
+	});
+
+	
+	var form1 = $('#QUIZZ_FORM');
+	 var error1 = $('.alert-danger', form1);
+	 var success1 = $('.alert-success', form1);
+	 $('#modal_loading_body').hide();
+
+	 form1.validate({
+	        errorElement: 'span', //default input error message container
+	        errorClass: 'help-block help-block-error', // default input error message class
+	        focusInvalid: true, // do not focus the last invalid input
+	        ignore: ".ignore :input",  // validate all fields including form hidden input
+	        messages: {
+	        	"RESPONSE": 'Veuillez choisir la bonne réponse pour cette question.',
+	        },
+	        rules: {
+		        'ANS[0][content]': {
+	           	 	required: true
+		        },
+		        'ANS[1][content]': {
+	           	 	required: true
+		        },
+		        'ANS[2][content]': {
+	           	 	required: true
+		        },
+	            'LIBELLE' : {
+	           	 	required: true
+		        },
+		        'RESPONSE' : {
+		        	required: true
+		        }
+	        },
+
+	        invalidHandler: function (event, validator) { //display error alert on form submit              
+	            success1.hide();
+	            error1.show();
+	            Metronic.scrollTo(error1, -200);
+	            for (var i=0;i<validator.errorList.length;i++){
+	            	$(validator.errorList[i].element).parents('.tab-pane').each( function(){
+	            		var id = $(this).attr('id');
+	            		$("#span_errors_"+id).html('<span class="label label-danger"><i class="fa fa-warning"></i></span>');//<i class="fa fa-times alert-danger"></i>
+	            		
+	            	});
+	            }
+		       
+	        },
+
+	        highlight: function (element) { // hightlight error inputs
+	            $(element)
+	                .closest('.form-group').addClass('has-error'); // set error class to the control group
+	        },
+
+	        unhighlight: function (element) { // revert the change done by hightlight
+	            $(element)
+	                .closest('.form-group').removeClass('has-error'); // set error class to the control group
+	        },
+
+	        success: function (label) {
+	            label
+	                .closest('.form-group').removeClass('has-error'); // set success class to the control group
+	        },
+
+	        submitHandler: function (form) {
+		            	error1.hide();
+	        			$(form).attr('action', "/quizz_form/0/"+process+"/<?= isset($_SESSION["user"]["idAdmin"]) ? $_SESSION["user"]["idAdmin"] : 0 ?>");	
+	        			$('#modal_loading_body').show().html(loader_modal_html);
+	        			
+	          			var formData = $(form).serializeArray();
+	          			
+	          			$.ajax({			
+		          	        url: $(form).attr("action"),          
+		          	        type : "POST",
+		          	        data:  formData,
+		          	        success : function(response) {
+
+		          	        	if(response.success){
+		          	        		$('#datatable_body').html(loader_datatable);
+			          	        	setTimeout(function(){
+			          	        		$('#modal_loading_body').html(response.message);
+						        	}, 100);
+			          	        	setTimeout(function(){
+			          	        		$('#modal_loading_body').hide();
+			          	        		$('#modal_transmission').modal('hide');
+			          	        		if(response.reload)
+			          	        			reload_questions_datatable(idTheme);
+			          	        		else
+			          	        			window.location.href = "/Q_Configuration";
+			          	 //       		table.DataTable().ajax.reload();
+						        	}, 1000);
+		          	        	}else if(response.success == 'error'){
+					        	 	window.location.href = "/logout";
+						        }else{
+		          	        		$('#modal_loading_body').html(response.message);
+		          	        	}
+		          	        }
+	          			});         			
+	          			return false;
+	        }
+	    });
+});
+function reload_questions_datatable(idTheme){
+	 table.api().ajax.url( "/questions_datatable/"+idTheme ).load();
+}
+function deleteTheme(idTheme){
+	bootbox.confirm( 'Voulez-vous vraiment supprimer ce thème (s\'il ne contient aucune question ) ? ' , function(result) {
+		if(result==true){
+				$.ajax({
+				        url : '/quizz_form/'+idTheme+'/T/0/del',
+				        type: 'POST',
+				        dataType: 'json',
+//				        data: {selection:TableauIdProcess,ActionIds:TableauIdAction},
+				        success : function(response){
+					        if(response.success == true){
+				        	 	toastr.success(response.message, 'Succès');
+				        	 	setTimeout(function(){
+		          	        		window.location.href = "/Q_Configuration";
+					        	}, 500);
+					        }else if(response.success == 'error'){
+				        	 	window.location.href = "/logout";
+					        }else{
+					        	toastr.error(response.message, 'Erreur');
+					        }
+					      
+				        }
+	    		}); 
+		}
+	});
+}
+function deleteQuestion(idQuestion){
+	bootbox.confirm( 'Voulez-vous vraiment supprimer cette question ? ' , function(result) {
+		if(result==true){
+				$.ajax({
+				        url : '/quizz_form/'+idQuestion+'/Q/0/del',
+				        type: 'POST',
+				        dataType: 'json',
+				        success : function(response){
+					        if(response.success == true){
+					        	$('#datatable_body').html(loader_datatable);
+				        	 	toastr.success(response.message, 'Succès');
+					        }else{
+					        	toastr.error(response.message, 'Erreur');
+					        }
+				        	//table.DataTable().ajax.reload();
+					        reload_questions_datatable(idTheme);
+				        }
+	    		}); 
+		}
+	});
+}
+function getFormTheme(idTheme){
+	process = 'T';
+	$('#modal_loading_body').hide();
+	var $modal = $('#modal_body');
+	$('#modal_transmission').modal('show');
+	 $.ajax({
+	        url: '/quizz_form/'+idTheme+'/T',
+	        success: function(response) {
+	        	$modal.html(response);
+	        	 $('#modal_transmission').modal('show');
+	        }
+	 });
+}
+function getFormQuestion(idQuestion){
+	process = 'Q';
+	$('#modal_loading_body').hide();
+	if($('#id_theme').val() > 0 || idQuestion > 0){
+	var $modal = $('#modal_body');
+	$('#modal_transmission').modal('show');
+	 $.ajax({
+	        url: '/quizz_form/'+idQuestion+'/Q',
+	        success: function(response) {
+	        	$modal.html(response);
+	        	 $('#modal_transmission').modal('show');
+	        }
+	 });
+	}else{
+		toastr.warning('Veuillez sélectionner d\'abord le thème', 'Erreur');
+	}
+}
+// function getFormQuestion(idQuestion , isAdd){
+// 	isAdd = typeof isAdd !== 'undefined' ? isAdd : false;
+// 	var $profils = $('#modal_body');
+// 	var idEnseigne = $('#id_enseigne').val();
+// 	 if( idEnseigne > 0 || isAdd===false )
+// 		 $.ajax({
+// 		        url: '/quizz_form/'+idQuestion+'/profil/'+idEnseigne,
+// 		        success: function(response) {
+// 		        	$profils.html(response);
+// 		        	 $('#modal_transmission').modal('show');
+// 		        }
+// 		    });
+// 	 else{
+		 
+// 		 toastr.info('Veuillez sélectionner un thème', 'Avertissement');
+// 	 }
+	 	
+	
+// }
+</script>

@@ -1,0 +1,241 @@
+
+<?php if ( isset($isTheme) && $isTheme):?>
+<div class="row">
+	<div class="col-md-12">
+		<input type="hidden" name="ID_THEME" id="" value="<?php if($theme!=null) echo $theme->getIdtheme();?>" />
+		<div class="form-group form-md-line-input has-info form-md-floating-label md-checkbox-inline col-md-12">
+			
+			<div class="md-checkbox   pull-right">
+				<input value="1" name="IS_ACTIVE" type="checkbox" id="checkbox34" class="md-check" <?=($theme!=null && $theme->getIsactive() == 1)?'checked':''?>>
+				<label for="checkbox34"> <span></span> <span class="check"></span> <span
+					class="box"></span> Actif
+				</label>
+			</div>
+		</div>
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-bookmark"></i>
+				</span> <input name="LIBELLE" type="text" class="form-control <?=($theme!=null)?'edited':''?>" id="" value="<?=($theme!=null)?$theme->getName():''?>"> <label
+					for="form_control_1">Libellé</label>
+			</div>
+		</div>
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-bookmark"></i>
+				</span> <input name="NB_QUESTION" type="number" min="1" class="form-control <?=($theme!=null)?'edited':''?>" id="" value="<?=($theme!=null)?$theme->getNbquestion():''?>"> <label
+					for="form_control_1">Nombre de question</label>
+			</div>
+		</div>
+	<!--  	<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-bookmark"></i>
+				</span> <input name="Ville" type="file" class="form-control ?=($theme!=null)?'edited':''?>" id="" value="?=($theme!=null)?$theme->getImgpath():''?>"> <label
+					for="form_control_1">Image</label>
+			</div>
+		</div>-->
+	</div>
+</div>
+<?php endif;?>
+<?php if ( isset($isResponse) && $isResponse && $response != null):?>
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<i class="fa fa-list-ol"></i> Résultat
+			</h3>
+		</div>
+		<div class="panel-body">
+			<?php foreach ($response as $k => $r):?>
+			<div class="panel panel-<?=$r->getIstrue() == 0? 'danger' :'success' ?>">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<?php if ( $r->getIstrue() == 0):?>
+							<a href="#panel-body-question_<?=$k?>" data-toggle="collapse">
+								<i class="fa fa-times"></i> <?=$r->getIdfkquestion()->getContent()?>
+							</a>
+						<?php else:?>
+							<i class="fa fa-check"></i> <?=$r->getIdfkquestion()->getContent()?>
+						<?php endif;?>
+					</h3>
+				<?php if ( $r->getIstrue() == 0):?>
+					<span style="margin-top: -20px;" class="pull-right"> 
+						<a href="#panel-body-question_<?=$k?>" data-toggle="collapse"> <i
+							class="fa fa-unsorted"></i>
+						</a>
+					</span>
+				<?php endif;?>
+				</div>
+				<div id="panel-body-question_<?=$k?>"
+					class="panel-body collapse <?=$r->getIstrue() == 0? 'in' :'' ?>">
+					<div class="row">
+						<div class="col-md-12">
+							<span class="btn default red-stripe btn-sm" style="background-color: antiquewhite;white-space: normal;margin-bottom: 2px;text-align: left;width: 100%;">
+								<?=$r->getIdfkanswer()->getContent()?>
+							</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<?php endforeach;?>	
+		</div>
+	</div>
+<?php endif;?>
+<?php if ( isset($isUser) && $isUser):?>
+<div class="modal-dialog modal-full">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title"><i class="fa fa-history"></i> Historique</h4>
+		</div>
+		<div class="modal-body panel">
+		
+			<div class="panel-body">
+				<div class="col-md-6">
+					<table id="datatable_histoy"
+						class="table table-striped table-hover table-bordered">
+						<thead>
+							<tr>
+								<th width="5%"></th>
+								<th>Date</th>
+								<th>Score</th>
+								<th>Résultat</th>
+								<th>Détail</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($tests as $k => $t):?>
+							<tr>
+								<td><?=$k+1?></td>
+								<td><?=$t->getCreationdate() != null ? $t->getCreationdate ()->format ('d/m/Y') : '--' ?></td>
+								<td><button class="btn btn-circle <?=$t->getResult()=='Perdu'? 'red' :($t->getResult()=='Gagné'?'green':'blue-hoki') ?>"><?=$t->getScore()?></button></td>
+								<td><?=$t->getResult()?></td>
+								<td><button class="btn btn-sm purple" onclick="showQuestionDetails(<?=$t->getIdtest()?>)"><i class="fa fa-align-center"></i></button></td>
+							</tr>
+						<?php endforeach;?>	
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-6" id="responseDetails">
+					
+				</div>
+				
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn default" data-dismiss="modal"><i class="fa fa-times"></i> Fermer</button>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$('#datatable_histoy').DataTable(
+		{
+		    "language": {
+		      //  "url":"<?php echo $this->basePath('ressources_bo_webapp/json/French.json') ?>",
+		        "processing":"Traitement en cours...",
+		 		"loadingRecords": "<i class='fa fa-spinner fa-spin'></i> Chargement en cours...",
+		            "aria": {
+		                "sortAscending": ": activer pour trier la colonne par ordre croissant",
+		                "sortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+		            },
+		            "emptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+		            "info": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+		            "infoEmpty": "0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+		            "infoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+		            "infoPostFix":    "",
+		            "lengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+		            "search": "Filtrer&nbsp;:",
+		            "zeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher"
+		    },
+			"ordering": true,
+		    "lengthMenu": [
+		        [5, 15, 20, -1],
+		        [5, 15, 20, "All"] 
+		    ],
+		    "pageLength": 5,
+		    "order": [
+		        [1, "desc"]
+		    ]
+		}
+	);
+
+</script>
+
+<?php endif;?>
+
+<?php if ( isset($isQuestion) && $isQuestion):?>
+<div class="row">
+	<div class="col-md-12">
+	
+		<input type="hidden" name="ID_QUESTION" id="" value="<?php if($question!=null) echo $question->getIdquestion();?>" />
+		
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-question-circle"></i>
+				</span>
+				<textarea name="LIBELLE" class="form-control <?=($question!=null)?'edited':''?>" rows="2"><?=($question!=null)?$question->getContent():''?></textarea>
+				<label for="form_control_1">Question</label>
+			</div>
+		</div>
+		
+		<?php // foreach ($users as $u):?>	
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-list-ol"></i>
+				</span>
+				<input type="hidden" name="ANS[0][id]" value="<?=($answers!=null)?$answers[0]->getIdanswer():''?>">
+				<textarea name="ANS[0][content]" class="form-control <?=(isset($answers[0]))?'edited':''?>" rows="1"><?=($answers!=null)?$answers[0]->getContent():''?></textarea>
+				<label for="form_control_1">Choix 1</label>
+			</div>
+		</div>
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-list-ol"></i>
+				</span>
+				<input type="hidden" name="ANS[1][id]" value="<?=($answers!=null && isset($answers[1]))?$answers[1]->getIdanswer():''?>">
+				<textarea name="ANS[1][content]" class="form-control <?=(isset($answers[1]))?'edited':''?>" rows="1"><?=($answers!=null && isset($answers[1]))?$answers[1]->getContent():''?></textarea>
+				<label for="form_control_1">Choix 2</label>
+			</div>
+		</div>
+		<div class="form-group form-md-line-input has-info form-md-floating-label">
+			<div class="input-group left-addon">
+				<span class="input-group-addon"> <i class="fa fa-list-ol"></i>
+				</span>
+				<input type="hidden" name="ANS[2][id]" value="<?=($answers!=null && isset($answers[2]))?$answers[2]->getIdanswer():''?>">
+				<textarea name="ANS[2][content]" class="form-control <?=(isset($answers[2]))?'edited':''?>" rows="1"><?=($answers!=null && isset($answers[2]))?$answers[2]->getContent():''?></textarea>
+				<label for="form_control_1">Choix 3</label>
+			</div>
+		</div>
+		<?php // endforeach;?>	
+		<div class="form-group form-md-radios" style="border-radius: 20px;border: 1px solid #73AD21;padding: 10px;">
+			<div class="md-radio-inline">
+				<center><input type="radio" id="radio5" name="RESPONSE" class="md-radiobtn hidden"></center>
+				<div class="col-md-3"><label>Réponse :</label></div>
+				<div class="md-radio">
+					<input type="radio" id="radio6" name="RESPONSE" class="md-radiobtn" value="1" <?=($answers!=null && $answers[0]->getIstrue())?'checked':''?>>
+					<label for="radio6">
+					<span></span>
+					<span class="check"></span>
+					<span class="box"></span>
+					Choix 1 </label>
+				</div>
+				<div class="md-radio">
+					<input type="radio" id="radio7" name="RESPONSE" class="md-radiobtn" value="2" <?=($answers!=null && isset($answers[1]) && $answers[1]->getIstrue())?'checked':''?>>
+					<label for="radio7">
+					<span></span>
+					<span class="check"></span>
+					<span class="box"></span>
+					Choix 2 </label>
+				</div>
+				<div class="md-radio">
+					<input type="radio" id="radio8" name="RESPONSE" class="md-radiobtn" value="3" <?=($answers!=null && isset($answers[2]) && $answers[2]->getIstrue())?'checked':''?>>
+					<label for="radio8">
+					<span></span>
+					<span class="check"></span>
+					<span class="box"></span>
+					Choix 3 </label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php endif;?>
+

@@ -1,0 +1,64 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * QUser
+ *
+ * @ORM\Table(name="q_user", indexes={@ORM\Index(name="fk_user_admin", columns={"idFkAdmin"})})
+ * @ORM\Entity
+ */
+class QUser
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idUser", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $iduser;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=false)
+     */
+    private $lastname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registerDate", type="datetime", nullable=false)
+     */
+    private $registerdate;
+
+    /**
+     * @var \Root\Entity\QAdmin
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QAdmin")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkAdmin", referencedColumnName="idAdmin")
+     * })
+     */
+    private $idfkadmin;
+
+
+}
+

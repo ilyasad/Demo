@@ -1,0 +1,43 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * QQuestion
+ *
+ * @ORM\Table(name="q_question", indexes={@ORM\Index(name="fk_question_theme", columns={"idFkTheme"})})
+ * @ORM\Entity
+ */
+class QQuestion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idQuestion", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idquestion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=255, nullable=false)
+     */
+    private $content;
+
+    /**
+     * @var \Root\Entity\QTheme
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QTheme")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkTheme", referencedColumnName="idTheme")
+     * })
+     */
+    private $idfktheme;
+
+
+}
+

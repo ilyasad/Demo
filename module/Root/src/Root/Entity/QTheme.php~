@@ -1,0 +1,64 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * QTheme
+ *
+ * @ORM\Table(name="q_theme", indexes={@ORM\Index(name="fk_theme_admin", columns={"idFkAdmin"})})
+ * @ORM\Entity
+ */
+class QTheme
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idTheme", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idtheme;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbQuestion", type="integer", nullable=false)
+     */
+    private $nbquestion = '1';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imgPath", type="string", length=255, nullable=true)
+     */
+    private $imgpath;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isActive", type="boolean", nullable=false)
+     */
+    private $isactive = '1';
+
+    /**
+     * @var \Root\Entity\QAdmin
+     *
+     * @ORM\ManyToOne(targetEntity="Root\Entity\QAdmin")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idFkAdmin", referencedColumnName="idAdmin")
+     * })
+     */
+    private $idfkadmin;
+
+
+}
+

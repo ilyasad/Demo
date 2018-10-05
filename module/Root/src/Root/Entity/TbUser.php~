@@ -1,0 +1,180 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TbUser
+ *
+ * @ORM\Table(name="tb_user")
+ * @ORM\Entity
+ */
+class TbUser
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="text", length=65535, nullable=false)
+     */
+    private $prenom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="text", length=65535, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="text", length=65535, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q1", type="integer", nullable=false)
+     */
+    private $q1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r1", type="text", length=65535, nullable=false)
+     */
+    private $r1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t1", type="integer", nullable=false)
+     */
+    private $t1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q2", type="integer", nullable=false)
+     */
+    private $q2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r2", type="text", length=65535, nullable=false)
+     */
+    private $r2;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t2", type="integer", nullable=false)
+     */
+    private $t2;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q3", type="integer", nullable=false)
+     */
+    private $q3;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r3", type="text", length=65535, nullable=false)
+     */
+    private $r3;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t3", type="integer", nullable=false)
+     */
+    private $t3;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q4", type="integer", nullable=false)
+     */
+    private $q4;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r4", type="text", length=65535, nullable=false)
+     */
+    private $r4;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t4", type="integer", nullable=false)
+     */
+    private $t4;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q5", type="integer", nullable=false)
+     */
+    private $q5;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r5", type="text", length=65535, nullable=false)
+     */
+    private $r5;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t5", type="integer", nullable=false)
+     */
+    private $t5;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="q6", type="integer", nullable=false)
+     */
+    private $q6;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r6", type="text", length=65535, nullable=false)
+     */
+    private $r6;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="t6", type="integer", nullable=false)
+     */
+    private $t6;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="worl", type="text", length=65535, nullable=false)
+     */
+    private $worl;
+
+
+}
+

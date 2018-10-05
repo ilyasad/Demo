@@ -1,0 +1,82 @@
+<?php
+
+namespace Root\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TbQcm
+ *
+ * @ORM\Table(name="tb_qcm")
+ * @ORM\Entity
+ */
+class TbQcm
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="theme", type="string", length=20, nullable=true)
+     */
+    private $theme;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="question", type="string", length=94, nullable=true)
+     */
+    private $question;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_1", type="string", length=127, nullable=true)
+     */
+    private $reponse1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_1_v", type="string", length=5, nullable=true)
+     */
+    private $reponse1V;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_2", type="string", length=121, nullable=true)
+     */
+    private $reponse2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_2_v", type="string", length=5, nullable=true)
+     */
+    private $reponse2V;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_3", type="string", length=122, nullable=true)
+     */
+    private $reponse3;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_3_v", type="string", length=5, nullable=true)
+     */
+    private $reponse3V;
+
+
+}
+

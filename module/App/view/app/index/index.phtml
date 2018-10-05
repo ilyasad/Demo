@@ -1,0 +1,323 @@
+<?php
+$title = 'Tableau de bord | My Quizz App';
+$this->headTitle ( $title );
+?>
+<?php
+
+echo $this->headLink ()
+->prependStylesheet ( $this->basePath ( 'css/perso.css' ) )
+->prependStylesheet ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css' ) );
+?>
+ 		
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="breadcrumbs breadcrumbs-perso">
+				<h1 style="font-size: 16px;">
+					<i class="fa fa-chevron-right"></i> Tableau de bord	
+										
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="/Q_Dashboard">Accueil</a></li>
+					<li class="active">Tableau de bord</li>
+				</ol>
+			</div>
+		</h3>
+	</div>
+</div>
+<div class="row">
+	<!--  -->
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat blue-hoki">
+			<div class="visual">
+				<i class="fa fa-user"></i>
+			</div>
+			<div class="details">
+				<div id="block_total_companies" class="number">
+					<?= $stats['u'] ?>
+				</div>
+				<div class="desc">Utilisateurs enregistrées</div>
+			</div>
+		</div>
+	</div>
+	<!--  -->
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat green-haze">
+			<div class="visual">
+				<i class="fa fa-file-text"></i>
+			</div>
+			<div class="details">
+				<div id="block_titulaires" class="number">
+					<?= $stats['t'] ?>
+				</div>
+				<div class="desc">Tests passés</div>
+			</div>
+		</div>
+	</div>
+	<!--  -->
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat purple-plum">
+			<div class="visual">
+				<i class="icon-pin"></i>
+			</div>
+			<div class="details">
+				<div id="block_published" class="number">
+					<?= $stats['g']//.'  ( '.$stats['pg'].' % )' ?>
+				</div>
+				<div class="desc">Tests gagnés <?= '  ( '.$stats['pg'].' % )' ?></div>
+			</div>
+		</div>
+	</div>
+	<!--  -->
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat red-pink">
+			<div class="visual">
+				<i class="fa fa-files-o"></i>
+			</div>
+			<div class="details">
+				<div id="block_depublished" class="number">
+					<?= $stats['p']//.'  ( '.$stats['pp'].' % )' ?>
+				</div>
+				<div class="desc">Tests perdus ( <?= $stats['pp']?> % )</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading" style="height: 50px">
+				<h3 class="panel-title">
+					<i class="fa fa-info-circle"></i> Statistiques 
+					<span class=" pull-right">
+						<button class="btn btn-sm red-sunglo" style="" onclick="dataExport()">
+							<i class="fa fa-download"></i> <span id="spinner-export"></span> <i class="fa fa-file-excel-o"></i>  
+						</button>
+					</span>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<!--  -->
+				<div class="table-toolbar">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="note note-info">
+								<p>
+									<i class="fa fa-info-circle"></i> Les statistiques du jeu
+								</p>
+							</div>
+							<table id="datatable_users" class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th></th>
+										<th></th>
+										<th>Utilisateur</th>
+										<th>Email</th>
+										<th>Date d'enregistrement</th>
+										<th>Note Sup</th>
+										<th>Note Inf</th>
+										<th>Test gagné</th>
+										<th>Test perdu</th>
+										<th>Test passé</th>
+									</tr>
+								</thead>
+								<tbody id="datatable_body"></tbody>
+							</table>
+						</div>
+						<div class="col-md-12" id="details">
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="full_modal_details" tabindex="-1" role="dialog" aria-hidden="true">
+	
+</div>
+<?php
+echo $this->headScript ()
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-toastr/toastr.min.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootbox/bootbox.min.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js' ) )
+->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/select2/select2.min.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js' ) )
+//->prependFile ( $this->basePath ( 'js/localization_js_validation/messages_fr.js' ) )
+//->prependFile ( $this->basePath ( 'ressources_bo_webapp/assets/global/plugins/jquery-validation/js/jquery.validate.min.js' ) )
+;
+?>
+<script type="text/javascript">
+
+var table = $('#datatable_users');
+$(document).ready(function() {
+	
+	
+	table.dataTable({
+	
+	 	"language": {
+	 		"processing":"Traitement en cours...",
+	 		"loadingRecords": "<i class='fa fa-spinner fa-spin'></i> Chargement en cours...",
+	            "aria": {
+	                "sortAscending": ": activer pour trier la colonne par ordre croissant",
+	                "sortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+	            },
+	            "emptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+	            "info": "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+	            "infoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+	            "infoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+	            "infoPostFix":    "",
+	            "lengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+	            "search": "Filtrer&nbsp;:",
+	            "zeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+	            "paginate": {
+	                "previous":"Pr&eacute;c&eacute;dent",
+	                "next": "Suivant",
+	                "last": "Dernier",
+	                "first": "Premier"
+	            }
+	    },
+	    "ajax": {
+			  "url": "/users_datatable/<?= $_SESSION["user"]["idAdmin"] ?>", 
+			},
+	    "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+		"ordering": true,
+	    "lengthMenu": [
+	        [5, 10, 15, 20, -1],
+	        [5, 10, 15, 20, "All"] // change per page values here
+	    ],
+	    // set the initial value
+	    "pageLength": 10,
+	    "columnDefs": [{  // set default column settings
+	        'orderable': false,
+	        'targets': [0]
+	    }, {
+	        "searchable": false,
+	        "targets": [0]
+	    }],
+	    "order": [
+	        [1, "desc"]
+	    ]
+	});
+
+// 	$('#datatable_users tbody td img').live('click', function() {
+// 	    $("#datatable_users td.details").each(function(i, o){
+// 	        $trParent = $(o).parents()[0];
+// 	        $("#datatable_users tbody td img").attr("src", "/ressources_bo_webapp/assets/global/plugins/datatables/examples/resources/details_open.png");
+// 	        $trParent.remove();
+	        
+// 	    });
+// 	    var nTr = $(this).parents('tr')[0];
+// 	    if (table.fnIsOpen(nTr))
+// 	    {
+// 	        /* This row is already open - close it */
+// 	        this.src = "/ressources_bo_webapp/assets/global/plugins/datatables/examples/resources/details_open.png";
+// 	        table.fnClose(nTr);
+// 	    }
+// 	    else
+// 	    {
+// 	        /* Open this row */
+// 	        this.src = "/ressources_bo_webapp/assets/global/plugins/datatables/examples/resources/details_close.png";
+// 	        table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+// 	        var aData = table.fnGetData(nTr);
+// 	        var id = aData[2];
+// 	        console.log($(this).attr('data-id'));
+// 	        id=$(this).attr('data-id');
+// 	        $.ajax({
+// 		        method:"get", 
+// 		        url:'/quizz_form/'+id+'/U', 
+// 		        success:function(data){ table.fnOpen(nTr, data, 'details');}, 
+// 		        error:function(){ table.fnOpen(nTr, $("#divErrorGrabDataMessage").html(), 'details');}
+// 		    });
+// 	    }
+// 	});
+// 	$('.details').click(function(){
+// 		alert($(this).attr('data-id'));
+// 	});
+// 	var nCloneTh = document.createElement('th');
+//     var nCloneTd = document.createElement('td');
+//     nCloneTd.innerHTML = '<img src="img/zf2-logo.png">';
+//     nCloneTd.className = "center";
+
+//     $('#datatable_users thead tr').each(function() {
+//         this.insertBefore(nCloneTh, this.childNodes[0]);
+//     });
+
+//     $('#datatable_users tbody tr').each(function() {
+//         this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
+//     });
+});
+
+ function showDetails(idUser){
+// 	//alert(idTest);
+// 	//$('#details').html('<p>'+idUser+'</p>');
+	
+	$.ajax({
+	        url: '/quizz_form/'+idUser+'/U',
+	        success: function(response) {
+	        	$('#full_modal_details').html(response);
+	        	$('#full_modal_details').modal('show');
+	        	//$modal.html(response);
+	        	// $('#modal_transmission').modal('show');
+	        }
+	 });
+ }
+ function showQuestionDetails(idTest){
+//	 	alert(idTest);
+//	 	//$('#details').html('<p>'+idUser+'</p>');
+		
+	 	$.ajax({
+	 	        url: '/quizz_form/'+idTest+'/R',
+	 	        success: function(response) {
+	 	        	$('#responseDetails').html(response);
+	 	        	//$('#full_modal_details').modal('show');
+	 	        	//$modal.html(response);
+	 	        	// $('#modal_transmission').modal('show');
+	 	        }
+	 	 });
+	 }
+ function fnFormatDetails(oTable, nTr)
+ {
+     var aData = oTable.fnGetData(nTr);
+     var id = aData[2];
+     var sOut = '<div id="divDetailAjax-' + id + '"><i style="font-size:20px;" class="fa fa-spinner fa-spin"></i> ' 
+             + ' &nbsp;Chargement en cours...</div>';
+
+     return sOut;
+ }
+ /**
+  * Export Excel
+  */
+  function dataExport(){
+ 	 							//<input type="hidden" value="export=true&filtre=bloquer" id="dataexport" />
+ 	var filtre = "export=true";//pour le moment null après il sera la valeur de l'input $('#dataexport').val();
+ 	$('#spinner-export').html("<i style='font-size:15px;' class='fa fa-spinner fa-spin'>");
+ 	//alert();
+ 	$.ajax({
+ 		type : "POST",
+ 		dataType: 'json',
+ 		data : filtre,
+ 		url : "/Q_Statistic/<?= $_SESSION["user"]["idAdmin"] ?>",
+ 		 success : function(response){
+ 		 	$('#spinner-export').html('');
+ 		 },
+ 		 error : function(){
+ 		 	$('#spinner-export').html('');
+ 		 }
+ 	})
+ 	.done(function(data){
+ 	    var $a = $("<a>");
+ 	    $a.attr("href",data.file);
+ 	    $("body").append($a);
+ 	    $a.attr("download","export-utilisateurs.xls");
+ 	    $a[0].click();
+ 	    $a.remove();
+ 	});
+ 		
+ }
+</script>

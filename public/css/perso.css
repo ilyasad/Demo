@@ -1,0 +1,38 @@
+.panel-success > .panel-heading {
+    background-color: #44b6ae;
+    border-color: #67c6bf;
+    color: #fff;
+}
+
+.table_admin tbody tr.even:hover, #table_admin_companies tbody tr.even td.highlighted {
+	cursor: pointer;
+	background-color: #eaf4e8;
+}
+
+.table_admin tbody tr.odd:hover, #table_admin_companies tbody tr.odd td.highlighted {
+	cursor: pointer;
+	background-color: #eaf4e8;
+}
+.breadcrumbs-perso {
+    margin-bottom: 0;
+    overflow: hidden;
+    padding-right: 6px;
+}
+.breadcrumbs-perso h1 {
+    color: #fff;
+}
+.breadcrumbs-perso .breadcrumb li.active {
+    color: #fff;
+}
+.breadcrumbs-perso .breadcrumb > li > a {
+    color: #2c3e50;
+}
+.pink-icon{
+	color: #E61264;
+}
+.sm-ivert{
+	width: 90px !important;
+}
+.spanred{
+	color: red;
+}
