@@ -56,7 +56,7 @@ body {
 <body class="login">
 	
 <?php
-$title = 'Connexion | Admin My webtoprint';
+$title = 'Connexion | Admin';
 $this->headTitle ( $title );
 ?>
 
@@ -67,7 +67,7 @@ $this->headTitle ( $title );
 <!-- BEGIN LOGO -->
 <div class="logo">
 	<a href="#"> <img
-		src="<?php echo $this->basePath('ressources_bo_webapp/img/EHCG.png') ?>"
+		src="<?php echo $this->basePath('ressources_bo_webapp/img/test.png') ?>"
 		alt="" />
 	</a>
 </div>
@@ -118,7 +118,7 @@ jQuery(document).ready(function() {
 $.backstretch([
         "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/1.jpg') ?>",
  //       "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/2.jpg') ?>",
-        "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/3.jpg') ?>",
+ //       "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/3.jpg') ?>",
  //       "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/4.jpg') ?>"
         ], {
           fade: 1000,
@@ -270,7 +270,7 @@ function validateEmail(email) {
 </script>
 <?php // $this->headScript()->captureEnd();?>
 <div class="copyright">
-	 <?php echo date('Y') ?> © EHCG My Web Root.
+	 <?php echo date('Y') ?> © My Web.
 </div>
 <!-- END LOGIN -->
 <?php echo $this->inlineScript() ?>

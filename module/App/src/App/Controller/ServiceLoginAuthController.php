@@ -68,20 +68,20 @@ class ServiceLoginAuthController extends AbstractActionController
     			$authenticationService = $this->getServiceLocator ()->get ( 'Zend\Authentication\AuthenticationService' );
     			$loggedRoot = $authenticationService->getIdentity ();
     			// Si le user est blocker
-    			 if ($loggedRoot->getIsactive() != 0) {
-    				$redirect = $loggedRoot->getRouting();
+    		//	 if ($loggedRoot->getIsactive() != 0) {
+    				$redirect = 'Q_Dashboard';//$loggedRoot->getRouting();
     				
     				$this->getSessionStorage ()->write ( $data ['login'] );
     				$responseJson = array (
     						'success' => true,
     						'redirect' => $redirect
     				);
-    			} else {
+    		//	} else {
     				//error_log('Utilisateur blocker');
-    				$responseJson = array (
-    						'success' => false
-    				);
-    			} 
+    			// 	$responseJson = array (
+    			// 			'success' => false
+    			// 	);
+    			// } 
     		} else {
     			$responseJson = array (
     					'success' => false

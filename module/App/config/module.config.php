@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use App\Entity\QAdmin;
+use App\Entity\Talent;
 
 return array (
 		'controllers' => array (
@@ -188,8 +188,8 @@ return array (
 				) 
 		),
 		'module_config' => array (
-				'website_name' => 'http://'.$_SERVER['SERVER_NAME'],//'http://tmp.imprimvert.fr',
-				'quizz_location' => 'public/ressources_bo_webapp/quizz_resources/xls_files',
+				// 'website_name' => 'http://'.$_SERVER['SERVER_NAME'],//'http://tmp.imprimvert.fr',
+				// 'quizz_location' => 'public/ressources_bo_webapp/quizz_resources/xls_files',
 				
 		),
 		/**
@@ -213,12 +213,12 @@ return array (
 				'authentication' => array (
 						'orm_default' => array (
 								'object_manager' => 'Doctrine\ORM\EntityManager',
-								'identity_class' => 'App\Entity\QAdmin',
-								'identity_property' => 'login',
-								'credential_property' => 'password',
-								'credential_callable' => function (Entity\QAdmin $user, $passwordGiven) {
+								'identity_class' => 'App\Entity\Talent',
+								'identity_property' => 'tlgn',
+								'credential_property' => 'tpwd',
+								'credential_callable' => function (Entity\Talent $user, $passwordGiven) {
 									
-									if ($user->getPassword () == md5 ( $passwordGiven )) {
+									if ($user->getTpwd () == sha1 ( $passwordGiven )) {
 										return true;
 									}
 									return false;
