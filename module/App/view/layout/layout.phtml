@@ -18,7 +18,7 @@
 						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/admin/layout5/css/custom.css'))
 						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/admin/layout5/css/layout.css'))
 						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/css/plugins.css'))
-						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/css/components-rounded.css'))
+			//			->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/css/components-rounded.css'))
 						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'))
 						->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/plugins/uniform/css/uniform.default.css'))
                         ->prependStylesheet($this->basePath('ressources_bo_webapp/assets/global/plugins/bootstrap/css/bootstrap.min.css'))
@@ -45,13 +45,13 @@
 <!-- BEGIN BODY -->
 <body class="page-header-fixed page-quick-sidebar-over-content" style="background: #98b2c6;">
 	<!-- BEGIN MAIN LAYOUT -->
-	<div class="wrapper">
+	<div class="">
 		<!-- Header BEGIN -->
 	    <header class="page-header">
 	        <nav class="navbar mega-menu" role="navigation">
 	            <div class="container-fluid">
 	                <div class="clearfix navbar-fixed-top" style="opacity: 0.7;">
-		                <!-- Brand and toggle get grouped for better mobile display -->
+		                <!-- Brand and toggle get grouped for better mobile display --
 		                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
 		                    <span class="sr-only">Toggle navigation</span>
 		                    <span class="toggle-icon">
@@ -62,14 +62,14 @@
 		                </button>
 		                <!-- End Toggle Button -->
 
-	                	<!-- BEGIN LOGO -->
+	                	<!-- BEGIN LOGO --
 	                    <a id="index" class="page-logo" href="#">
 	                        <img src="<?php echo $this->basePath('ressources_bo_webapp/img/ehcg.png') ?>" alt="Logo EHCG">
 	                    </a>
 	                	<!-- END LOGO -->
 
-		                <!-- BEGIN TOPBAR ACTIONS -->
-		                <div class="topbar-actions">
+		                <!-- BEGIN TOPBAR ACTIONS --
+		                <div class="topbar-actions" style="top:0px">
 		                	<!-- BEGIN GROUP NOTIFICATION -->
 							
 		                	<!-- END GROUP NOTIFICATION -->
@@ -77,15 +77,15 @@
 							<!-- BEGIN GROUP INFORMATION -->
 							<!-- END GROUP INFORMATION -->
 
-							<!-- BEGIN USER PROFILE -->
+							<!-- BEGIN USER PROFILE --
 			                <div class="btn-group-img btn-group">
 								<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 									<!--
 									<img src="assets/admin/layout5/img/avatar1.jpg" alt="">
-									-->
+									--
 									<span>Bienvenue, 
 									<?php if( $this->loggedUser ): ?>
-										<?php echo $this->loggedUser->getCompany();?> - <?php echo $this->loggedUser->getLogin();?> <i class="fa fa-angle-down"></i>
+										<?php echo $this->loggedUser->getLogin();?> <i class="fa fa-angle-down"></i>
 									<?php endif;?>
 									</span>
 								</button>
@@ -107,12 +107,12 @@
 			                    <i class="icon-logout"></i>
 			                </button>
 							-->							
-			                <!-- END QUICK SIDEBAR TOGGLER -->
+			                <!-- END QUICK SIDEBAR TOGGLER --
 						</div>
 		                <!-- END TOPBAR ACTIONS -->
 	                </div>
 
-	                <!-- Collect the nav links, forms, and other content for toggling -->
+	                <!-- Collect the nav links, forms, and other content for toggling --
 	                <div class="nav-collapse collapse navbar-collapse navbar-responsive-collapse">
 	                    	<?php echo $this->partial('navigation'); ?>
 	                </div>
@@ -125,7 +125,7 @@
 
 		<!-- Page Content BEGIN -->
 	    <div class="container-fluid">
-	    		<div class="page-content" style="padding-top: 30px;">  		
+	    		<div class="page-content" style="padding-top: 10px;">  		
 	    			<?php echo $this->content; ?>
 	    		</div>
 	    	</div>
@@ -135,7 +135,7 @@
 			<!-- END QUICK SIDEBAR -->			
 			
 			<!-- Copyright BEGIN -->
-			<center><p class="copyright" style="color: #2034a2;"><?php echo date('Y') ?> © EHCG My Web App.</p></center>
+			<center><p class="copyright" style="color: #2034a2;"><?php echo date('Y') ?> © My App.</p></center>
 			<!-- Copyright END -->
 	    </div>
 	</div>
@@ -147,14 +147,11 @@ jQuery(document).ready(function() {
    	Metronic.init(); // init metronic core componets
    	Layout.init(); // init layout
    	$.backstretch([
-   	            "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_1.jpg') ?>",
-   	     //       "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_2.jpg') ?>",
+   	    //        "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_1.jpg') ?>",
+   	    //        "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_2.jpg') ?>",
    	            "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_3.jpg') ?>",
    	    //        "<?php echo $this->basePath('ressources_bo_webapp/assets/admin/pages/media/bg/Q_4.jpg') ?>"
-   	            ], {
-   	              fade: 1000,
-   	              duration: 8000
-   	        }
+   	            ]
    	        );
 });
 </script>

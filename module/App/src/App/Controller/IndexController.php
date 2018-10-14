@@ -21,7 +21,13 @@ class IndexController extends AbstractActionController
 		return $this->em;
 	}
 
-    public function indexAction()
+	public function indexAction()
+    {
+		return new ViewModel([
+			'stats' => ''
+		]);
+	}
+    public function index2Action()
     {
     	$authenticationService = new AuthenticationService();
     	 
