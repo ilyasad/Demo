@@ -9,7 +9,7 @@ return array (
 						'Root\Controller\ServiceLoginAuth' => 'Root\Controller\ServiceLoginAuthController',
 				//		'Root\Controller\Index' 			=> 'Root\Controller\IndexController',
 				//		'Root\Controller\Administration' => 'Root\Controller\AdministrationController',
-						'Root\Controller\Customers' => 'Root\Controller\CustomersController',
+						'Root\Controller\Customers' => 'Root\Controller\CustomersController', 
 				) 
 		),
 		'router' => array (
